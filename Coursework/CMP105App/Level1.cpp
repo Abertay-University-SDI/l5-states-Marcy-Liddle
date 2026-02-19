@@ -34,7 +34,7 @@ Level1::Level1(sf::RenderWindow& hwnd, Input& in, GameState& gs) :
 	tileSet.push_back(tile);
 
 	std::vector<int> tileMapLocations{
-		b,	b,	20,	b,	66,	b,	b,	b,	b,	112,
+		b,	b,	20,	b,	b,	b,	b,	b,	b,	112,
 		b,	21, 104,22,	22,23,	b,	b,	b,	131,
 		1,	142,142,142,142,142,3,	b,	81,	83
 	};
