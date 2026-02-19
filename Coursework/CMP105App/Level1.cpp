@@ -2,7 +2,7 @@
 
 
 Level1::Level1(sf::RenderWindow& hwnd, Input& in, GameState& gs) :
-	BaseLevel(hwnd, in, gs)
+	BaseLevel(hwnd, in, gs) , m_pauseText(m_font)
 {
 	int tile_size = 18;
 	int num_cols = 20;
@@ -63,14 +63,22 @@ Level1::Level1(sf::RenderWindow& hwnd, Input& in, GameState& gs) :
 	m_player.setFlag(&m_flag);
 	m_player.setSwitch(&m_switch);
 
+	if (!m_font.openFromFile("font/arial.ttf")) std::cerr << "no font";
+	m_pauseText.setFont(m_font);
 }
 
 // handle user input
 void Level1::handleInput(float dt)
 {
-	if (m_input.isLeftMousePressed())
+	if (m_input.isKeyDown(sf::Keyboard::Scancode::P))
 	{
-		std::cout << "left mouse pressed" << std::endl;
+		m_isPaused = !m_isPaused;
+	}
+
+	if (m_isPaused)
+	{
+		m_pauseText.setPosition(m_player.getPosition());
+		return;
 	}
 
 	m_player.handleInput(dt);
@@ -79,6 +87,11 @@ void Level1::handleInput(float dt)
 // Update game objects
 void Level1::update(float dt)
 {
+	if (m_isPaused)
+	{
+		return;
+	}
+
 	m_player.update(dt);
 	
 	std::vector<GameObject>& level = *m_tileMap.getLevel();
@@ -88,6 +101,15 @@ void Level1::update(float dt)
 		{
 			m_player.collisionResponse(t);
 		}
+	}
+
+	if (m_player.endGame())
+	{
+		m_player.setGameEnd(false);
+		m_gameState.setCurrentState(State::CREDITS);
+
+		m_player.setPosition({ 50,0 });
+		m_player.setVelocity({ 0,0 });
 	}
 }
 
@@ -99,6 +121,9 @@ void Level1::render()
 	m_window.draw(m_flag);	
 	m_window.draw(m_switch);
 	m_window.draw(m_player);
+
+	 
+	if (m_isPaused) m_window.draw(m_pauseText);
 	endDraw();
 }
 

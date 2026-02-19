@@ -28,4 +28,8 @@ private:
 	Switch m_switch;
 
 	sf::Texture m_tileTexture;
+
+	bool m_isPaused = false;
+	sf::Text m_pauseText;
+	sf::Font m_font;
 };

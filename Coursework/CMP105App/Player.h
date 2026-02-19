@@ -21,6 +21,9 @@ public:
         m_flag = mcFlag;
     }
 
+    bool endGame() { return m_wantsToEndGame; }
+    void setGameEnd(bool yesOrNo) { m_wantsToEndGame = yesOrNo; }
+
 private:
     sf::Texture m_texture;
     sf::Vector2f m_acceleration;
@@ -30,6 +33,8 @@ private:
     Switch * m_switch;
     GameObject* m_flag;
 
+    bool m_wantsToEndGame = false;
+ 
     const float GRAVITY = 10.f;
     const float SPEED = 10.f;
     const float JUMP_FORCE = 5.0f;

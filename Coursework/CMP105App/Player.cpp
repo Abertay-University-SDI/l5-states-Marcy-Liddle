@@ -49,6 +49,7 @@ void Player::handleInput(float dt)
 		if ((getPosition() - flagCentre).length() <= 50.0)
 		{
 			std::cout << "flag pressed\n";
+			m_wantsToEndGame = true; 
 		}
 		if ((getPosition() - switchCentre).length() <= 50.0)
 		{
